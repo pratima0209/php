@@ -19,6 +19,7 @@ include 'conn.php';
     <table class="table">
   <thead>
     <tr>
+      <th scope="col">Id</th>
       <th scope="col">Name</th>
       <th scope="col">Email</th>
       <th scope="col">Mobile</th>
@@ -33,48 +34,34 @@ include 'conn.php';
     <?php
     $sql="select * from user";
     $result=mysqli_query($conn,$sql);
-if($result)
+    
+    if($result)
 {
     while($row= mysqli_fetch_assoc($result))
     {
-        //$id=$row['id'];
+        $id=$row['id'];
         $name=$row['name'];
         $email=$row['email'];
         $mobile=$row['mobile'];
         $password=$row['password'];
 
         echo '<tr>
-        
+        <td>'.$id.'</td>
         <td>'.$name.'</td>
         <td>'.$email.'</td>
         <td>'.$mobile.'</td>
         <td>'.$password.'</td>
         <td>
-            <button class="btn btn-primary"><a href="update.php" class="text-light">Update</a></button>
-            <button class="btn btn-danger"><a href="delete.php" class="text-light" >Delete</a></button>
+            <button class="btn btn-primary"><a href="update.php? updateid='.$id.'" class="text-light">Update</a></button>
+            <button class="btn btn-danger"><a href="delete.php? deleteid='.$id.'" class="text-light" >Delete</a></button>
         </td>
     
       </tr>';
     }
 }
     ?>
-    <!--<tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>-->
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
   </tbody>
 </table>
 </body>
