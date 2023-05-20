@@ -34,6 +34,35 @@ class User extends MyController
         echo view('user/add',  $this->dataModule); 
      }
 
+
+
+    public function update($id){
+        
+        $model = new Sitefunction();
+        $records = $model->get_all_rows('student', '*', array('id' => $id));
+        $results['results'] = $records[0];
+        echo view('user/update',  $results); 
+     }
+
+    public function delete($id){
+        
+        $model = new Sitefunction();
+        $deletedata=$model->delete_data('student',array('id'=>$id));
+       
+        $results = array();
+        $data = new Sitefunction();
+        $databaseValues = $data->get_all_rows('student','*',array('name' => 'Pratima'));
+        // return json_encode($databaseValues);
+        $data = new Sitefunction();
+        $databaseValues123 = $data->get_all_rows('student','*');
+            $results['firstResult'] = $databaseValues;
+            $results['secondResult'] = $databaseValues123;
+           echo view('user/index',  $results); 
+       
+     }
+
+
+
      public function submitFormdata(){
         $formData = $_POST;
 
@@ -80,16 +109,63 @@ class User extends MyController
             return "0";
         }
 
- /*       $validmob=$dataToinsert->get_all_rows('student','*', array('mobile' => $ajaxData['mobile']));
-        if(empty($validmob))
-        {
-            $error="please enter mob no";
-        }
-        elseif(strlen($validmob)<10)
-        {
-            $error="mob no should be 10 digit";
-        }*/
-
+ 
      }
+
+
+     public function updateAjaxdata(){
+        
+        $ajaxData = $this->request->getPost();
+    //    echo($ajaxData);
+        $dataToupdate = new Sitefunction();
+        // $checkIfemailExists = $dataToupdate->get_all_rows('student','*', array('email' => $ajaxData['email']));
+        // if(empty($checkIfemailExists)){
+            $dataToupdate = new Sitefunction();
+            $dataToupdate->protect(false);
+            $data = array(
+                'name' => $ajaxData['name'],
+                'email' => $ajaxData['email'],
+                'mobile' => $ajaxData['mobile'],
+                'address' => $ajaxData['address']
+            );
+            $dataToupdate->update_data('student', $data,array('id'=>$ajaxData['id']));
+            return "1";
+        // }else{
+        //     return "0";
+        // }
+
+ 
+     }
+
+
+     public function deleteData(){
+        
+        $ajaxData = $this->request->getPost();
+    
+        $dataTodelete = new Sitefunction();
+        // $checkIfemailExists = $dataToupdate->get_all_rows('student','*', array('email' => $ajaxData['email']));
+        // if(empty($checkIfemailExists)){
+            $dataTodelete = new Sitefunction();
+            $dataTodelete->protect(false);
+            $data = array(
+                'name' => $ajaxData['name'],
+                'email' => $ajaxData['email'],
+                'mobile' => $ajaxData['mobile'],
+                'address' => $ajaxData['address']
+            );
+            $dataTodelete->delete_data('student',array('id'=>$ajaxData['id']));
+            return "1";
+        // }else{
+        //     return "0";
+        // }
+
+ 
+     }
+
+
+
+
+
+
 
 }

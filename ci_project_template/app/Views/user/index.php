@@ -31,7 +31,7 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-12 text-right">
-                <a href="#" class="btn btn-primary">add</a>
+                <a href="<?= USER_PATH?>add" class="btn btn-primary">add</a>
 
             </div>
         </div>
@@ -72,7 +72,9 @@
                             <th><?= $records['mobile'] ?></th>
                             <th><?= $records['email'] ?></th>
                             <th><?= $records['address'] ?></th>
-                            <th><a class="btn btn-warning" href="#">Edit</a></th>
+                            <th><a class="btn btn-primary" href="<?= USER_PATH?>update/<?= $records['id'] ?>">Edit</a></th>
+                            <th><a class="btn btn-danger" href="<?= USER_PATH?>delete/<?= $records['id'] ?>">Delete</a></th>
+
                         </tr>
 
                         <?php } ?>
