@@ -20,12 +20,31 @@ class User extends MyController
         
     $results = array();
     $data = new Sitefunction();
-    $databaseValues = $data->get_all_rows('student','*',array('name' => 'Pratima'));
-    // return json_encode($databaseValues);
+    $databaseValues = $data->get_all_rows('student','*',array());
+    
+    $results['secondResult']=$databaseValues;
+
+    // single table join
     $data = new Sitefunction();
-    $databaseValues123 = $data->get_all_rows('student','*');
-        $results['firstResult'] = $databaseValues;
-        $results['secondResult'] = $databaseValues123;
+    $join = array(
+        TBL_CLG. ' as a' => 'a.student_id = s.id',
+      );
+        $databaseValues123 = $data->get_all_rows(TBL_STUDENT .' as s' ,'s.*,a.id as clg_id,a.clg_name',array(),$join, array());
+
+       // return print json_encode($databaseValues123);
+  
+        // multiple table join
+        // $data=new Sitefunction();
+        // $join1=array(
+        //     TBL_CLG .' as d'=>'d.id = c.clg_id',
+        //     TBL_STUDENT. ' as s'=> 's.id = c.student_id'
+        // );
+        // $ggg=$data->get_all_rows(TBL_DEPARTMENT .' as c','c.*,d.*,s.*',array(),$join1,);
+        // $results['secondResult'] = $ggg;
+
+        
+        
+       
        echo view('user/index',  $results); 
     }
 
@@ -41,6 +60,7 @@ class User extends MyController
         $model = new Sitefunction();
         $records = $model->get_all_rows('student', '*', array('id' => $id));
         $results['results'] = $records[0];
+        
         echo view('user/update',  $results); 
      }
 
@@ -141,23 +161,14 @@ class User extends MyController
      public function deleteData(){
         
         $ajaxData = $this->request->getPost();
-    
+        
         $dataTodelete = new Sitefunction();
-        // $checkIfemailExists = $dataToupdate->get_all_rows('student','*', array('email' => $ajaxData['email']));
-        // if(empty($checkIfemailExists)){
-            $dataTodelete = new Sitefunction();
+        
             $dataTodelete->protect(false);
-            $data = array(
-                'name' => $ajaxData['name'],
-                'email' => $ajaxData['email'],
-                'mobile' => $ajaxData['mobile'],
-                'address' => $ajaxData['address']
-            );
+           
             $dataTodelete->delete_data('student',array('id'=>$ajaxData['id']));
             return "1";
-        // }else{
-        //     return "0";
-        // }
+        
 
  
      }

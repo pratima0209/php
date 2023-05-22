@@ -113,6 +113,10 @@ define('VIDEO_UPLOAD_PATH', DOMAIN_BASE_URL . '/uploads/');
 define('FETCH_VIDEO', DOMAIN_URL . '/uploads/');
 
 define("TBL_PREFIX", "tbl_");
+define("TBL_CLG", "college");
+define("TBL_STUDENT", "student");
+define("TBL_DEPARTMENT", "department");
+
 
 define('API_URL', SITE_URL . "api/");
 

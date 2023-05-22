@@ -64,7 +64,7 @@
                         <input type="text" name="address" id="address" class="form-control" value="<?=$results['address']?>">
                     </div>   
                     <br>
-                    <button type="submit" class="btn btn-primary" onclick="updateData()" >Update</button>
+                    <button type="submit" class="btn btn-primary" onclick="showUpdateAlert()" >Update</button>
                     <!-- </form>                    -->
                        </div>
             
@@ -74,7 +74,7 @@
         </div>
 
 
-
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 
         <script>
 
@@ -129,7 +129,6 @@
 
 
 
-
             function updateData(){
                 //console.log("hii");
                 var email = document.getElementById("email").value;
@@ -164,7 +163,7 @@
                     success: function(data)
                     {
                         if(data == '1'){
-                         //   console.log("hhhh")
+                         
                             window.location.href="<?= USER_PATH ?>";
                         }else{
                             window.location.reload();
@@ -185,6 +184,36 @@
             return emailRegex.test(email);
         }
 
+function showUpdateAlert() {
+
+    console.log("Working")
+  Swal.fire({
+    icon: 'info',
+    title: 'Update Data',
+    text: 'Are you sure you want to update the data?',
+    showCancelButton: true,
+    confirmButtonText: 'Update',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Perform the update operation here
+      updateData()
+      Swal.fire({
+        icon: 'success',
+        title: 'Data Updated',
+        text: 'The data has been successfully updated.',
+      });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+        
+      Swal.fire({
+        icon: 'warning',
+        title: 'Cancelled',
+        text: 'The data update operation has been cancelled.',
+      });
+      window.location.href="<?= USER_PATH ?>";
+    }
+  });
+}
 
         
 
