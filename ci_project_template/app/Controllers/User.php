@@ -29,20 +29,28 @@ class User extends MyController
     $join = array(
         TBL_CLG. ' as a' => 'a.student_id = s.id',
       );
-        $databaseValues123 = $data->get_all_rows(TBL_STUDENT .' as s' ,'s.*,a.id as clg_id,a.clg_name',array(),$join, array());
+        $databaseValues123 = $data->get_all_rows(TBL_STUDENT .' as s' ,'s.*,a.id as clg_id,a.clg_name',array('s.id'=>74),$join, array());
+        $results['secondResult'] = $databaseValues123;
 
        // return print json_encode($databaseValues123);
   
-        // multiple table join
-        // $data=new Sitefunction();
-        // $join1=array(
-        //     TBL_CLG .' as d'=>'d.id = c.clg_id',
-        //     TBL_STUDENT. ' as s'=> 's.id = c.student_id'
-        // );
-        // $ggg=$data->get_all_rows(TBL_DEPARTMENT .' as c','c.*,d.*,s.*',array(),$join1,);
-        // $results['secondResult'] = $ggg;
-
-        
+        //multiple table join
+        $data=new Sitefunction();
+        $join1=array(
+            TBL_CLG .' as d'=>'d.id = c.clg_id',
+            TBL_STUDENT. ' as s'=> 's.id = c.student_id'
+        );
+        $ggg=$data->get_all_rows(TBL_DEPARTMENT .' as c','c.*,d.*,s.*',array('c.clg_id'=>2),$join1,);
+      $results['secondResult'] = $ggg;
+    //
+      $data=new Sitefunction();
+      $join2=array(
+            TBL_STUDENT. ' as s ' =>'s.id=c.student_id',
+           // TBL_DEPARTMENT. ' as d ' => 'd.id'
+        );
+        $databasevalue=$data->get_all_rows(TBL_CLG. ' as c','c.*,s.*',array('c.student_id'=>75),$join2);
+        // return print json_encode($databasevalue);
+        $results['secondResult'] = $databasevalue;
         
        
        echo view('user/index',  $results); 

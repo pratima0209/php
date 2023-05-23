@@ -55,7 +55,7 @@
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Mobile</th>
-                                <!-- <th>college Name</th> -->
+                                <th>college Name
                                 <!-- <th>Department Name</th> -->
                                 <th>Email</th>
                                 <th>Address</th>
@@ -74,7 +74,7 @@
                                     <th><?= $records['id'] ?></th>
                                     <th><?= $records['name'] ?></th>
                                     <th><?= $records['mobile'] ?></th>
-                                    <?php /*<th><?= $records['clg_name'] */?>
+                                    <th><?= $records['clg_name'] ?></th>
                                     <?php //<th><?= $records['department_name'] ?></th> 
                                     <th><?= $records['email'] ?></th>
                                     <th><?= $records['address'] ?></th>
