@@ -36,6 +36,10 @@
                 <a href="<?= USER_PATH ?>add" class="btn btn-primary">add</a>
 
             </div>
+            <div class="col-md-12 text-right">
+                <a href="<?= USER_PATH ?>calculation" class="btn btn-primary"> Calculation</a>
+
+            </div>
         </div>
     </div>
 
@@ -55,10 +59,12 @@
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Mobile</th>
-                                <th>college Name
-                                <!-- <th>Department Name</th> -->
+                                <th>college Name</th>
+                                <th>Department Name</th> 
                                 <th>Email</th>
                                 <th>Address</th>
+                                <th>Marks</th>
+                                <th>Sub Name</th>
                                 <th>Action</th>
                             </tr>
                             <!-- <tr>
@@ -69,15 +75,18 @@
                             <th>Pune</th>
                             <th><a class="btn btn-warning" href="#">Edit</a></th>
                         </tr> -->
-                            <?php foreach ($secondResult as $records) { ?>
+                            <?php foreach ($rrr as $records) { ?>
                                 <tr>
                                     <th><?= $records['id'] ?></th>
                                     <th><?= $records['name'] ?></th>
                                     <th><?= $records['mobile'] ?></th>
                                     <th><?= $records['clg_name'] ?></th>
-                                    <?php //<th><?= $records['department_name'] ?></th> 
+                                    <th><?= $records['department_name'] ?></th> 
                                     <th><?= $records['email'] ?></th>
                                     <th><?= $records['address'] ?></th>
+                                    <th><?=$records['marks'] ?></th>
+                                    <th><?=$records['sname'] ?></th>
+
                                     <th><a class="btn btn-primary" href="<?= USER_PATH ?>update/<?= $records['id'] ?>">Edit</a></th>
                                     <th><a class="btn btn-danger" onclick="deletedata(<?= $records['id'] ?>)">Delete</a></th>
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+    <title>student marks</title>
+</head>
+<body>
+    <ul id="list">
+        <li>child1</li>
+        <li>child2</li>
+        <li>child3</li>
+        <li id="item1">child4</li>
+        <li>child5</li>
+        <li>child6</li>
+        <li id="item2">child7<li>
+        </ul>
+<script>
+       var ele=$("#item1").nextUntil("#item2");
+       ele.css("border","1px  solid red");
+</script>
+
+</body>
+
+</html>

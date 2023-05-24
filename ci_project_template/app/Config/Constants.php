@@ -116,6 +116,9 @@ define("TBL_PREFIX", "tbl_");
 define("TBL_CLG", "college");
 define("TBL_STUDENT", "student");
 define("TBL_DEPARTMENT", "department");
+define("TBL_SUBJECT", "subject");
+define("TBL_MARKS", "marks");
+
 
 
 define('API_URL', SITE_URL . "api/");

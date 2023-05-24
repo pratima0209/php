@@ -29,28 +29,32 @@ class User extends MyController
     $join = array(
         TBL_CLG. ' as a' => 'a.student_id = s.id',
       );
-        $databaseValues123 = $data->get_all_rows(TBL_STUDENT .' as s' ,'s.*,a.id as clg_id,a.clg_name',array('s.id'=>74),$join, array());
+        $databaseValues123 = $data->get_all_rows(TBL_STUDENT .' as s' ,'s.*,a.clg_name',array('s.id'=>74),$join, array());
         $results['secondResult'] = $databaseValues123;
 
-       // return print json_encode($databaseValues123);
+    //  return print json_encode($databaseValues123);
   
         //multiple table join
         $data=new Sitefunction();
         $join1=array(
             TBL_CLG .' as d'=>'d.id = c.clg_id',
-            TBL_STUDENT. ' as s'=> 's.id = c.student_id'
+            TBL_STUDENT. ' as s'=> 's.id = c.student_id',
+            TBL_MARKS. ' as m' =>  'm.student_id =s.id',
+            TBL_SUBJECT. ' as sb'=> 'sb.id = m.sub_id'
         );
-        $ggg=$data->get_all_rows(TBL_DEPARTMENT .' as c','c.*,d.*,s.*',array('c.clg_id'=>2),$join1,);
-      $results['secondResult'] = $ggg;
-    //
-      $data=new Sitefunction();
-      $join2=array(
-            TBL_STUDENT. ' as s ' =>'s.id=c.student_id',
-           // TBL_DEPARTMENT. ' as d ' => 'd.id'
-        );
-        $databasevalue=$data->get_all_rows(TBL_CLG. ' as c','c.*,s.*',array('c.student_id'=>75),$join2);
-        // return print json_encode($databasevalue);
-        $results['secondResult'] = $databasevalue;
+        $ggg=$data->get_all_rows(TBL_DEPARTMENT .' as c','c.department_name,d.clg_name,s.*,m.marks,sb.sname',array(),$join1,array(),'','',array(),'s.id');
+      $results['rrr'] = $ggg;
+        //return print json_encode($results['rrr']);
+
+
+    //   $data=new Sitefunction();
+    //   $join2=array(
+    //         TBL_STUDENT. ' as s ' =>'s.id=c.student_id',
+    //        // TBL_DEPARTMENT. ' as d ' => 'd.id'
+    //     );
+    //     $databasevalue=$data->get_all_rows(TBL_CLG. ' as c','c.*,s.*',array('c.student_id'=>75),$join2);
+    //     // return print json_encode($databasevalue);
+    //     $results['secondResult'] = $databasevalue;
         
        
        echo view('user/index',  $results); 
@@ -182,7 +186,35 @@ class User extends MyController
      }
 
 
+public function calculation()
+{
 
+    
+        // $ajaxData = $this->request->getPost();
+        // $dataToinsert = new Sitefunction();
+        // $checkIfemailExists = $dataToinsert->get_all_rows('calculation','*');
+
+        // if(empty($checkIfemailExists)){
+        //     $dataToinsert = new Sitefunction();
+        //     $dataToinsert->protect(false);
+        //     $data = array(
+        //         'amt' => $ajaxData['amt'],
+        //         'gst' => $ajaxData['gst'],
+        //         'cgst' => $ajaxData['cgst'],
+        //         'tot' => $ajaxData['tot']
+        //     );
+        //     $dataToinsert->insert_data('calculation', $data);
+        //     return "1";
+        // }else{
+        //     return "0";
+        // }
+
+ 
+     
+
+
+   echo view('user/calculation');
+}
 
 
 
