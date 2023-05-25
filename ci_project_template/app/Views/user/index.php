@@ -34,11 +34,14 @@
         <div class="row">
             <div class="col-md-12 text-right">
                 <a href="<?= USER_PATH ?>add" class="btn btn-primary">add</a>
+                <a href="<?= USER_PATH ?>bill" class="btn btn-primary"> Calculation</a>
 
             </div>
-            <div class="col-md-12 text-right">
+            <!-- <div class="col-md-12 text-right">
+            <p align="right">
+                
                 <a href="<?= USER_PATH ?>calculation" class="btn btn-primary"> Calculation</a>
-
+</p> -->
             </div>
         </div>
     </div>

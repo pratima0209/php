@@ -60,6 +60,16 @@ class User extends MyController
        echo view('user/index',  $results); 
     }
 
+    public function bdisplay(){
+        
+        $results = array();
+        $data = new Sitefunction();
+        $databaseValues = $data->get_all_rows('bill','*',array());
+        
+        $results['second']=$databaseValues;
+        echo view('user/bdisplay',  $results); 
+
+    }    
     public function add(){
         
         echo view('user/add',  $this->dataModule); 
@@ -190,33 +200,60 @@ public function calculation()
 {
 
     
-        // $ajaxData = $this->request->getPost();
-        // $dataToinsert = new Sitefunction();
-        // $checkIfemailExists = $dataToinsert->get_all_rows('calculation','*');
-
-        // if(empty($checkIfemailExists)){
-        //     $dataToinsert = new Sitefunction();
-        //     $dataToinsert->protect(false);
-        //     $data = array(
-        //         'amt' => $ajaxData['amt'],
-        //         'gst' => $ajaxData['gst'],
-        //         'cgst' => $ajaxData['cgst'],
-        //         'tot' => $ajaxData['tot']
-        //     );
-        //     $dataToinsert->insert_data('calculation', $data);
-        //     return "1";
-        // }else{
-        //     return "0";
-        // }
-
- 
+       
      
 
 
    echo view('user/calculation');
 }
 
+public function billajaxdata()
+{
+        $ajaxData = $this->request->getJson();
+        $product= $ajaxData->product;
+        $quantity= $ajaxData->quantity;
+        $amount= $ajaxData->amount;
+        $total= $ajaxData->total;
+        $discount= $ajaxData->discount;
+        $subtot= $ajaxData->subtot;
+        $tax= $ajaxData->tax;
+        $gtotal= $ajaxData->gtotal;
 
 
 
+
+
+        // $dataToinsert = new Sitefunction();
+        // $checkIfemailExists = $dataToinsert->get_all_rows('bill','*',array() );
+
+        // if(empty($checkIfemailExists)){
+            $dataToinsert = new Sitefunction();
+            $dataToinsert->protect(false);
+            $data = array(
+                'product' => $product,
+                'quantity' => $quantity,
+                'amount' => $amount,
+                'total' => $total,
+                'discount' => $discount,
+                'subtot' => $subtot,
+                'tax' => $tax,
+                'gtotal' => $gtotal
+
+            );
+            $dataToinsert->insert_data('bill', $data);
+            return "1";
+        // }
+        // else{
+        //     return "0";
+        // }
+
+        
+
+     }
+ 
+ public function bill(){
+    echo view('user/bill', $this->dataModule);
+ }
 }
+
+
