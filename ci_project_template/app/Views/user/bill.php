@@ -53,7 +53,7 @@
       <button type="submit" class="btn btn-primary mt-3" onclick="billData()">Submit</button>
    
   </div>
-</body>s
+</body>
 
 <script>
   $(document).ready(function() {

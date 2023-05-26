@@ -196,7 +196,7 @@ class User extends MyController
      }
 
 
-public function calculation()
+public function calculate()
 {
 
     
@@ -204,7 +204,7 @@ public function calculation()
      
 
 
-   echo view('user/calculation');
+   echo view('user/calculate');
 }
 
 public function billajaxdata()
