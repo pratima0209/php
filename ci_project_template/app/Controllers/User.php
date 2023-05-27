@@ -64,8 +64,8 @@ class User extends MyController
         
         $results = array();
         $data = new Sitefunction();
-        $databaseValues = $data->get_all_rows('bill','*',array());
-        
+        $databaseValues = $data->get_all_rows('product1','*',array());
+        //return print json_encode($databaseValues);
         $results['second']=$databaseValues;
         echo view('user/bdisplay',  $results); 
 
@@ -202,45 +202,49 @@ public function calculate()
     
        
      
-
-
-   echo view('user/calculate');
+    $results = array();
+    $data = new Sitefunction();
+    $databaseValues = $data->get_all_rows('product1','*',array());
+    
+    $results["product"]=$databaseValues;
+   echo view('user/calculate',$results);
 }
 
-public function billajaxdata()
+public function productajaxdata()
 {
         $ajaxData = $this->request->getJson();
-        $product= $ajaxData->product;
-        $quantity= $ajaxData->quantity;
-        $amount= $ajaxData->amount;
-        $total= $ajaxData->total;
-        $discount= $ajaxData->discount;
-        $subtot= $ajaxData->subtot;
-        $tax= $ajaxData->tax;
-        $gtotal= $ajaxData->gtotal;
+    //    return json_encode($ajaxData[0]->discount);
+       
+        $dataToinsert = new Sitefunction();
+        // $data_arr =array();
+        //$discount= $ajaxData->discount;
+for($i=0;$i<(sizeof($ajaxData));$i++){
+     $discount= $ajaxData[$i]->discount;
+    $product= $ajaxData[$i]->product;
+    $quantity= $ajaxData[$i]->quantity;
+    $price= $ajaxData[$i]->price;
+    $total= $ajaxData[$i]->total;
+    $subtotal= $ajaxData[$i]->subtotal;
+    $gtotal= $ajaxData[$i]->gtotal;
+
+    $data = array(
+        'discount' => $discount,
+        'product' => $product,
+        'quantity' => $quantity,
+        'price' => $price,
+        'total' => $total,
+        'subtotal' => $subtotal,
+        'gtotal' => $gtotal
+        
+    );
+    $dataToinsert->protect(false);
+    $dataToinsert->insert_data('product1', $data);
+// array_push($data_arr,$data);
+}
 
 
-
-
-
-        // $dataToinsert = new Sitefunction();
-        // $checkIfemailExists = $dataToinsert->get_all_rows('bill','*',array() );
-
-        // if(empty($checkIfemailExists)){
-            $dataToinsert = new Sitefunction();
-            $dataToinsert->protect(false);
-            $data = array(
-                'product' => $product,
-                'quantity' => $quantity,
-                'amount' => $amount,
-                'total' => $total,
-                'discount' => $discount,
-                'subtot' => $subtot,
-                'tax' => $tax,
-                'gtotal' => $gtotal
-
-            );
-            $dataToinsert->insert_data('bill', $data);
+            
+            // return json_encode($data_arr);
             return "1";
         // }
         // else{
@@ -251,8 +255,8 @@ public function billajaxdata()
 
      }
  
- public function bill(){
-    echo view('user/bill', $this->dataModule);
+ public function product(){
+    echo view('user/calculate', $this->dataModule);
  }
 }
 

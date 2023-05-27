@@ -31,27 +31,22 @@
                        
                         <table class="table table-striped">
                             <tr>
+                                <th>Discount</th> 
                                 <th>Product</th>
                                 <th>Quantity</th>
-                                <th>Amount</th>
+                                <th>Price</th>
                                 <th>Total</th>
-                                <th>Discount</th> 
                                 <th>Sub Total</th>
-                                <th>Tax</th>
                                 <th>Gtotal</th>
                                 
                             </tr>
                            
                             <?php foreach ($second as $records) { ?>
                                 <tr>
+                                    <th></th> 
                                     <th><?= $records['product'] ?></th>
-                                    <th><?= $records['quantity'] ?></th>
-                                    <th><?= $records['amount'] ?></th>
-                                    <th><?= $records['total'] ?></th>
-                                    <th><?= $records['discount'] ?></th> 
-                                    <th><?= $records['subtot'] ?></th>
-                                    <th><?= $records['tax'] ?></th>
-                                    <th><?=$records['gtotal'] ?></th>
+                                    <th></th> 
+                                    <th><?= $records['price'] ?></th>
                                     
 
                                    
