@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Core;
-
 use App\Core\BaseController;
 use App\Models\CategoryModel;
 use App\Models\Sitefunction;
@@ -10,6 +9,9 @@ use App\Models\UsersModel;
 use CodeIgniter\API\ResponseTrait;
 use DateTime;
 use Exception;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 
 
 class MyController extends BaseController
@@ -98,30 +100,28 @@ class MyController extends BaseController
         return $jsonData;
     }
 
-    function verify($request)
+    // 
+    
+    function verify()
     {
         $key = $this->getKey();
-
-        if ($request->header("Authorization") == null) {
-            $userId = -1;
-        } else {
-            $authHeader = $request->header("Authorization");
-            $authHeader = $authHeader->getValue();
-            $token = $authHeader;
-            $userId = -1;
-            try {
-                $decoded = JWT::decode($token, $key, array("HS256"));
-
-                if ($decoded) {
-                    $userId = $decoded->data;
-                }
-            } catch (Exception $e) {
-                $userId = -1;
-            }
+        $authHeader = $this->request->header("Authorization");
+        $authHeader = $authHeader->getValue();
+        $token = $authHeader;
+        $userId = -1;
+        try {
+            $decoded = JWT::decode($token, new Key($key, "HS256"));
+            $userId = $decoded->data;
+        } catch (Exception $ex) {
+            return $userId;
         }
-
         return $userId;
     }
+
+
+
+
+
 
     public function sendMail($to, $subject, $message)
     {

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\MyController;
 use App\Models\Sitefunction;
+use Firebase\JWT\JWT;
 
 class User extends MyController
 {
@@ -215,73 +216,85 @@ class User extends MyController
 
 
     public function productajaxdata()
-        {
-            $ajaxData = $this->request->getJson();
+    {
+        $ajaxData = $this->request->getJson();
         // return json_encode(($ajaxData));
+        $dataToinsert = new Sitefunction();
+
+        for ($i = 0; $i < sizeof($ajaxData); $i++) {
+            $quantity = $ajaxData[$i]->quantity;
+            $subtotal = $ajaxData[$i]->sub_total;
+            $gtotal = $ajaxData[$i]->grand_total;
+            $pro_id = $ajaxData[$i]->pro_id;
+
+            $data = array(
+                'quantity' => $quantity,
+                'sub_total' => $subtotal,
+                'grand_total' => $gtotal,
+                'pro_id' => $pro_id,
+            );
             $dataToinsert = new Sitefunction();
-        
-            for ($i = 0; $i < sizeof($ajaxData); $i++) {
-                $quantity = $ajaxData[$i]->quantity;
-                $subtotal = $ajaxData[$i]->sub_total;
-                $gtotal = $ajaxData[$i]->grand_total;
-                $pro_id = $ajaxData[$i]->pro_id;
-        
-                $data = array(
-                    'quantity' => $quantity,
-                    'sub_total' => $subtotal,
-                    'grand_total' => $gtotal,
-                    'pro_id' => $pro_id,
-                );
-                $dataToinsert = new Sitefunction();
-                $dataToinsert->protect(false);
-                $dataToinsert->insert_data('total', $data);
-            }
-        
-            return "1";
+            $dataToinsert->protect(false);
+            $dataToinsert->insert_data('total', $data);
         }
 
-
-        // return json_encode($data_arr);
-        
-        // }
-        // else{
-        //     return "0";
-        // }
+        return "1";
+    }
 
 
+    // return json_encode($data_arr);
 
-    
+    // }
+    // else{
+    //     return "0";
+    // }
+
+
+
+
 
     public function product()
     {
         echo view('user/calculate', $this->dataModule);
     }
 
+
+    public function registerData()
+    {
+
+        $data = array(
+            'uname' => 'Priya',
+            'password' => $this->encrypt_password(1),
+        );
+        $dataToinsert = new Sitefunction();
+        $dataToinsert->protect(false);
+        $dataToinsert->insert_data('login', $data);
+    }
+
+
     public function loginAjaxdata()
     {
 
         $ajaxData = $this->request->getJSON();
-      $username=$ajaxData->uname;
-      $password=$ajaxData->password;
-      $dataToupdate = new Sitefunction();
-      $dataToupdate->protect(false);
-      $data = array(
-          'uname' => $username,
-          'password' => $this->encrypt_password($password),
-        );
+        $username = $ajaxData->uname;
+        $password = $ajaxData->password;
+        //   $dataToupdate = new Sitefunction();
+        //   $dataToupdate->protect(false);
+        //   $data = array(
+        //       'uname' => $username,
+        //       'password' => $this->encrypt_password($password),
+        //     );
         $dataToupdate = new Sitefunction();
-        $result=$dataToupdate->get_single_row('login','*',array('uname'=>strtolower($username)));
+        $result = $dataToupdate->get_single_row('login', '*', array('uname' => $username));
         // return json_encode($result);
-    if(!empty($result))
-    {
-        $storepass=$result['password'];
-        if($this->verify_password($password,$storepass))
-        {
-            $this->session->set('id',strval($result['id']));
-            $this->session->set('username',($result['username']));
-            $dataArray=array(
-                'id'=>$result["id"],
-                'username'=>$username,
+        if (!empty($result)) {
+            $storepass = $result['password'];
+
+            $this->session->set('id', $result['id']);
+            $this->session->set('username', $result['uname']);
+            $dataArray = array(
+                'id' => $result["id"],
+                'username' => $username,
 
             );
             // return json_encode($dataArray);
@@ -292,7 +305,7 @@ class User extends MyController
             $alg = 'HS256';
             $payload = array(
                 "iss" => "The_admin",
-                "aud" => "The_Aud", 
+                "aud" => "The_Aud",
                 "iat" => $iat, // issued at
                 "nbf" => $nbf, //not before in seconds
                 "exp" => $exp, // expire time in seconds
@@ -300,19 +313,50 @@ class User extends MyController
             );
             $token = JWT::encode($payload, $key, $alg);
             $dataArray['token'] = $token;
-            return json_encode($token);
-        }else{
-              return 0;
-            }
-    }
-    else{
+            $this->session->set('jwtToken', $token);
+            
+            return json_encode($dataArray); 
+            // } else {
+            //     return "Else";
+            // }
+            return 1;
+        } else {
             return 0;
         }
 
         $dataToupdate->insert_data('login', $data);
         return "1";
-        
     }
 
+//     public function accessToken(){
+//         $results = $this->verify();
+//         if($results != -1){
+//             redirect("<?= USER_PATH );
+            
+//         }else{
+//             return "not assess";
+//         }
 
+//     }
+
+// }
+
+
+public function accessToken()
+{
+    $token = $this->session->get('jwtToken');
+
+    if (!empty($token)) {
+        $results = $this->verify($token); 
+
+        if ($results != -1) {
+            
+            redirect('/user/add'); 
+        } else {
+            return "Invalid access token";
+        }
+    } else {
+        return "Access token not found";
+    }
+}
 }

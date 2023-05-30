@@ -4,7 +4,7 @@
 <html>
 
 <head>
-  <title>Calculate</title>
+  <title></title>
 </head>
 
 <body>
@@ -44,7 +44,7 @@
                     data: JSON.stringify({
                         'uname': uname,
                         'password': password,
-                         }), // serializes the form's elements.
+                         }), 
                     success: function(data) {
                       console.log(data);
                         if (data == '1') {
@@ -55,7 +55,8 @@
                                 confirmButtonText: 'OK',
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    // window.location.href = "<?= USER_PATH ?>";
+                                    window.location.href = "<?= USER_PATH ?>add";
+                                    
                                 }
                             });
                         } else {
