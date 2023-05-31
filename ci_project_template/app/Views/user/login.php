@@ -46,21 +46,23 @@
                         'password': password,
                          }), 
                     success: function(data) {
-                      console.log(data);
+                      //console.log(data);
+                      //console.log("Data"+data)
                         if (data == '1') {
                                  Swal.fire({
                                 title: 'Success',
-                                text: 'Data added successful!',
+                                text: 'login successful!',
                                 icon: 'success',
                                 confirmButtonText: 'OK',
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = "<?= USER_PATH ?>add";
+                                    window.location.href = "<?= USER_PATH ?>addSubjectView";
                                     
                                 }
                             });
                         } else {
-
+                         // console.log("else")
+                          alert("username and password are not match ")
                             // window.location.href = "<?= USER_PATH ?>login";
                         }
                     },

@@ -34,7 +34,8 @@
         <div class="row">
             <div class="col-md-12 text-right">
                 <a href="<?= USER_PATH ?>add" class="btn btn-primary">add</a>
-                <a href="<?= USER_PATH ?>calculate" class="btn btn-primary"> Calculation</a>
+                <a href="<?= USER_PATH ?>bdisplay" class="btn btn-primary"> Calculation</a>
+
 
             </div>
             <!-- <div class="col-md-12 text-right">
@@ -62,12 +63,12 @@
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Mobile</th>
-                                <th>college Name</th>
-                                <th>Department Name</th> 
+                               <!-- <th>college Name</th>
+                                <th>Department Name</th>--> 
                                 <th>Email</th>
                                 <th>Address</th>
-                                <th>Marks</th>
-                                <th>Sub Name</th>
+                              <!--  <th>Marks</th>
+                                <th>Sub Name</th>-->
                                 <th>Action</th>
                             </tr>
                             <!-- <tr>
@@ -78,19 +79,19 @@
                             <th>Pune</th>
                             <th><a class="btn btn-warning" href="#">Edit</a></th>
                         </tr> -->
-                            <?php foreach ($rrr as $records) { ?>
+                            <?php foreach ($secondResult as $records) { ?>
                                 <tr>
                                     <th><?= $records['id'] ?></th>
                                     <th><?= $records['name'] ?></th>
                                     <th><?= $records['mobile'] ?></th>
-                                    <th><?= $records['clg_name'] ?></th>
-                                    <th><?= $records['department_name'] ?></th> 
+                                 <?php //   <th><?= $records['clg_name'] ?><?php //</th>?>
+                                  <?php //  <th><?= $records['department_name'] ?><?php //</th>?> 
                                     <th><?= $records['email'] ?></th>
                                     <th><?= $records['address'] ?></th>
-                                    <th><?=$records['marks'] ?></th>
-                                    <th><?=$records['sname'] ?></th>
+                                    <?php //<th><?=$records['marks'] ?><?php //</th>?>
+                                    <?php //<th><?=$records['sname'] ?><?php //</th>?>
 
-                                    <th><a class="btn btn-primary" href="<?= USER_PATH ?>update/<?= $records['id'] ?>">Edit</a></th>
+                                    <th><a class="btn btn-primary" href="<?= USER_PATH ?>updateStudentView/<?= $records['id'] ?>">Edit</a></th>
                                     <th><a class="btn btn-danger" onclick="deletedata(<?= $records['id'] ?>)">Delete</a></th>
 
                                 </tr>
@@ -103,24 +104,12 @@
             </div>
         </div>
     </div>
-    <!-- <td>
-                            <a href="" class="btn btn-primary btn-sm">Edit</a>
-                            <a href="" class="btn btn-danger btn-sm">Delete</a>
-                            <script>                        </td> -->
+                        
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 
     <script>
         function deletedata(id) {
-            // alert("hello");
-            //     if (!$records['id']=="") {
-            //     Swal.fire({
-            //       icon: 'error',
-            //       title: 'Error',
-            //       text: 'Invalid ID. Unable to perform delete operation.',
-            //     });
-            //     return;
-            //   }
-            Swal.fire({
+             Swal.fire({
                 icon: 'warning',
                 title: 'Delete Data',
                 text: 'Are you sure you want to delete the data?',
@@ -137,6 +126,9 @@
                             "id": id,
 
                         }, // serializes the form's elements.
+                //         headers: ({
+                //     Authorization: "<?php //$controller->session->get('jwtToken'); ?>"
+                // }),
                         success: function(data) {
                             if (data == 1) {
                                 // Display a message or show a screen
@@ -160,35 +152,6 @@
                 }
             });
         }
-
-        // function deleteData() {
-
-        //     Swal.fire({
-        //         icon: 'warning',
-        //         title: 'Delete Data',
-        //         text: 'Are you sure you want to delete the data?',
-        //         showCancelButton: true,
-        //         confirmButtonText: 'Delete',
-        //         cancelButtonText: 'Cancel',
-        //         reverseButtons: true
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             // Perform the delete operation here
-        //             deletedata();
-        //             Swal.fire({
-        //                 icon: 'success',
-        //                 title: 'Data Deleted',
-        //                 text: 'The data has been successfully deleted.',
-        //             });
-        //         } else if (result.dismiss === Swal.DismissReason.cancel) {
-        //             Swal.fire({
-        //                 icon: 'info',
-        //                 title: 'Cancelled',
-        //                 text: 'The data delete operation has been cancelled.',
-        //             });
-        //         }
-        //     });
-        // }
     </script>
 </body>
 

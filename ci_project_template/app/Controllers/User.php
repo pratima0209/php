@@ -33,7 +33,7 @@ class User extends MyController
             TBL_CLG . ' as a' => 'a.student_id = s.id',
         );
         $databaseValues123 = $data->get_all_rows(TBL_STUDENT . ' as s', 's.*,a.clg_name', array('s.id' => 74), $join, array());
-        $results['secondResult'] = $databaseValues123;
+        //$results['secondResult'] = $databaseValues123;
 
         //  return print json_encode($databaseValues123);
 
@@ -91,23 +91,41 @@ class User extends MyController
         echo view('user/update',  $results);
     }
 
+    // public function delete($id)
+    // {
+
+    //     $model = new Sitefunction();
+    //     $deletedata = $model->delete_data('student', array('id' => $id));
+
+    //     $results = array();
+    //     $data = new Sitefunction();
+    //    // $databaseValues = $data->get_all_rows('student', '*', array('name' => 'Pratima'));
+    //     // return json_encode($databaseValues);
+    //     $data = new Sitefunction();
+    //     $databaseValues123 = $data->get_all_rows('student', '*');
+    //     $results['firstResult'] = $databaseValues;
+    //     $this->dataModule['secondResult'] = $databaseValues123;
+    //     echo view('user/index',$this->dataModule);
+    // }
     public function delete($id)
     {
-
         $model = new Sitefunction();
         $deletedata = $model->delete_data('student', array('id' => $id));
-
-        $results = array();
+    
         $data = new Sitefunction();
-        $databaseValues = $data->get_all_rows('student', '*', array('name' => 'Pratima'));
-        // return json_encode($databaseValues);
+        //$databaseValues = $data->get_all_rows('student', '*', array('name' => 'Pratima'));
+        // Uncomment and provide a valid value for $databaseValues
+    
         $data = new Sitefunction();
         $databaseValues123 = $data->get_all_rows('student', '*');
-        $results['firstResult'] = $databaseValues;
-        $results['secondResult'] = $databaseValues123;
-        echo view('user/index',  $results);
+    
+        $this->dataModule = array();
+       // $this->dataModule['firstResult'] = $databaseValues;
+        $this->dataModule['secondResult'] = $databaseValues123;
+    
+        return view('user/index', $this->dataModule);
     }
-
+    
 
 
     public function submitFormdata()
@@ -263,8 +281,8 @@ class User extends MyController
     {
 
         $data = array(
-            'uname' => 'Priya',
-            'password' => $this->encrypt_password(1),
+            'uname' => 'Pratima',
+            'password' => $this->encrypt_password(22),
         );
         $dataToinsert = new Sitefunction();
         $dataToinsert->protect(false);
@@ -278,12 +296,6 @@ class User extends MyController
         $ajaxData = $this->request->getJSON();
         $username = $ajaxData->uname;
         $password = $ajaxData->password;
-        //   $dataToupdate = new Sitefunction();
-        //   $dataToupdate->protect(false);
-        //   $data = array(
-        //       'uname' => $username,
-        //       'password' => $this->encrypt_password($password),
-        //     );
         $dataToupdate = new Sitefunction();
         $result = $dataToupdate->get_single_row('login', '*', array('uname' => $username));
         // return json_encode($result);
@@ -314,49 +326,85 @@ class User extends MyController
             $token = JWT::encode($payload, $key, $alg);
             $dataArray['token'] = $token;
             $this->session->set('jwtToken', $token);
-            
-            return json_encode($dataArray); 
+           // $this->session->set('jwtToken', '38746374rer');
+
+            // return json_encode($token); 
             // } else {
             //     return "Else";
             // }
-            return 1;
+            return "1";
         } else {
-            return 0;
+            return "0";
         }
-
-        $dataToupdate->insert_data('login', $data);
-        return "1";
+        return "0";
     }
 
-//     public function accessToken(){
-//         $results = $this->verify();
-//         if($results != -1){
-//             redirect("<?= USER_PATH );
-            
-//         }else{
-//             return "not assess";
-//         }
+    //     public function accessToken(){
+    //         $results = $this->verify();
+    //         if($results != -1){
+    //             redirect("" );
 
-//     }
+    //         }else{
+    //             return "not assess";
+    //         }
 
-// }
+    //     }
 
-
-public function accessToken()
-{
-    $token = $this->session->get('jwtToken');
-
-    if (!empty($token)) {
-        $results = $this->verify($token); 
-
-        if ($results != -1) {
-            
-            redirect('/user/add'); 
-        } else {
-            return "Invalid access token";
-        }
-    } else {
-        return "Access token not found";
+    // }
+    public function addSubjectView()
+    {
+        echo view('user/jwtAccess',$this->dataModule);
     }
-}
+
+    public function addSubject()
+    {
+        $requestData = $this->request->getPost();
+        $userId = $this->verify();
+        if($userId != -1){
+            $data = array(
+                'name' => $requestData['name'],
+                'email' =>$requestData['email'],
+                'mobile' => $requestData['mobile'],
+                'address' => $requestData['address']
+                       );
+            $dataToupdate = new Sitefunction();
+            $dataToupdate->protect(false);
+            $dataToupdate->insert_data('student', $data);
+            return "1";
+        }else{
+            return "0";
+        }
+    }
+
+
+    public function updateStudentView($id)
+    {
+        $model = new Sitefunction();
+        $records = $model->get_all_rows('student', '*', array('id' => $id));
+        $this->dataModule['results']=$records[0];
+
+        echo view('user/jwtUpdate',$this->dataModule);
+
+    }
+
+    public function updateStudent()
+    {
+        $requestData = $this->request->getPost();
+        $userId = $this->verify();
+        if($userId != -1){
+            $data = array(
+                
+                'name' => $requestData['name'],
+                'email' => $requestData['email'],
+                'mobile' => $requestData['mobile'],
+                'address' => $requestData['address']
+            );
+            $dataToupdate = new Sitefunction();
+            $dataToupdate->protect(false);
+            $dataToupdate->update_data('student', $data,array('id' => $requestData['id']));
+            return "1";
+        }else{
+            return "0";
+        }
+    }    
 }
